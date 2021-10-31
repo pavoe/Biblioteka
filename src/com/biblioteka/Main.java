@@ -93,9 +93,13 @@ public class Main {
                         break;
                     case 2: //Tworzenie konta i logowanie
                         Person konto = tworzenieKonta();
-                        biblioteka.dodajOsobe(konto);
-                        if(logowanie(konto.login,konto.hasło,biblioteka)) System.out.println("Udane logowanie");
-                        else System.out.println("Nieudana próba logowania\n");
+                        if(biblioteka.dodajOsobe(konto))
+                        {
+                            System.out.println("Udane utworzenie konta");
+                            if(logowanie(konto.login,konto.hasło,biblioteka)) System.out.println("Udane logowanie");
+                            else System.out.println("Nieudana próba logowania\n");
+                        }
+                        System.out.println("Nie udało się utworzyć konta");
                         break;
                     case 3: //wypisanie książek
                         System.out.println("--DOSTĘPNE KSIĄŻKI--");

@@ -11,8 +11,8 @@ public class Library
 {
     Vector<Person> osoby;
     Vector<Book> ksiazki;
-    private static final String BOOKS_PATH = "src/com/biblioteka/resources/Books";
-    private static final String PEOPLE_PATH = "src/com/biblioteka/resources/People";
+    private static final String BOOKS_PATH = "src/com/biblioteka/resources/Books.csv";
+    private static final String PEOPLE_PATH = "src/com/biblioteka/resources/People.csv";
     public Library()
     {
       osoby = new Vector<Person>();
@@ -31,17 +31,28 @@ public class Library
     }
     public Boolean dodajOsobe(Person osoba)
     {
-        if(!osoby.contains(osoba)) return osoby.add(osoba);
-        return false;
+        for(Person p : osoby)
+        {
+            //jeśli jest już konto z takim samym loginem, nie dodaje jej do osób w bibliotece
+            if(osoba.login.equalsIgnoreCase(p.login)) return false;
+        }
+        return osoby.add(osoba);
     }
-    public Boolean DodajKsiazke(Book ksiazka)
+    public Boolean dodajKsiazke(Book ksiazka)
     {
-        if(!ksiazki.contains(ksiazka)) return ksiazki.add(ksiazka);
-        return false;
+        for(Book b : ksiazki)
+        {
+            //jeśli istnieje już taka książka w bibliotece, dodanie ilości dostęnych książek
+            if(ksiazka.autor.equalsIgnoreCase(b.autor) && ksiazka.tytuł.equalsIgnoreCase(b.tytuł) && ksiazka.rokWydania.equals(b.rokWydania))
+            {
+                b.dostępne += ksiazka.getDostępne();
+            }
+        }
+        return true;
     }
     private Book loadWierszKsiazka(String linia)
     {
-        String[] dane = linia.split("\\|");
+        String[] dane = linia.split(",");
         //linia: tytul|autor|rok|dostepnych
         //dane: [tytul, autor, rok, dostepnych]
 
@@ -52,10 +63,10 @@ public class Library
 
     private Person loadWierszOsoba(String linia)
     {
-        String[] dane = linia.split("\\|");
+        String[] dane = linia.split(",");
         //linia: imie|nazwisko|login|haslo|wypozyczoneKsiazki
         //dane: [imie, nazwisko, login, haslo, [wypozyczoneKsiazki]]
-        String[] wypozyczoneIndex = dane[dane.length-1].split(",");
+        String[] wypozyczoneIndex = dane[dane.length-1].split(";");
         Person osoba = new Person(dane[0],dane[1],dane[2],dane[3]);
 
         //Wypożyczanie książek
@@ -91,7 +102,7 @@ public class Library
         for(Book ksiazka: ksiazki)
         {
             //[index]|tytul|autor|rokWydania|dostępne
-            writer.write(ksiazki.indexOf(ksiazka)+"|"+ksiazka.saveWiersz());
+            writer.write(ksiazki.indexOf(ksiazka)+","+ksiazka.saveWiersz());
         }
         writer.close();
     }

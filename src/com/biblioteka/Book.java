@@ -31,6 +31,6 @@ public class Book
     }
     public String saveWiersz()
     {
-        return String.format("%s|%s|%s|%s\n",tytuł, autor,rokWydania, dostępne);
+        return String.format("%s,%s,%s,%s\n",tytuł, autor,rokWydania, dostępne);
     }
 }

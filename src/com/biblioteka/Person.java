@@ -20,27 +20,21 @@ public class Person {
 
      Boolean wypozyczKsiazke(int index, Book ksiazka)
     {
-        if(ksiazka.getDostępne()>0)
+        if(ksiazka.getDostępne()>0 && !wypozyczoneKsiazki.containsKey(index))
         {
-            ksiazka.setDostępne(ksiazka.getDostępne()-1);
-            if(!wypozyczoneKsiazki.containsKey(index))
-            {
                 wypozyczoneKsiazki.put(index, ksiazka);
+                ksiazka.setDostępne(ksiazka.getDostępne()-1);
                 return true;
-            }
         }
-      return false;
+        else return false;
     }
 
     //podczas ładowania z pliku nie zmnejszać liczby dostępnych książek
     void wypozyczKsiazkeLoadPerson(int index, Book ksiazka)
     {
-        if (ksiazka.getDostępne() > 0)
+        if (ksiazka.getDostępne() > 0 && !wypozyczoneKsiazki.containsKey(index))
         {
-            if (!wypozyczoneKsiazki.containsKey(index))
-            {
                 wypozyczoneKsiazki.put(index, ksiazka);
-            }
         }
     }
 
@@ -62,7 +56,7 @@ public class Person {
         {
             if(i!=array.length-1)
             {
-                wynik += array[i] + ",";
+                wynik += array[i] + ";";
             }
             else wynik += array[i];
         }
@@ -89,13 +83,17 @@ public class Person {
     String saveWiersz()
     {
         //Imię|Nazwisko|Login|Hasło|Lista wypożyczonych książek
+
+        //jeśli przy wpisywaniu hasło puste, zastąpione jest spacją
         if(hasło.equals("")) hasło = " ";
+
+        //jeśli index -1, brak wypożyczonych książek
         String keys = "-1";
         if(wypozyczoneKsiazki.size() > 0)
         {
             keys = arrayToString(wypozyczoneKsiazki.keySet().toArray());
         }
 
-        return String.format("%s|%s|%s|%s|%s\n",imię, nazwisko, login, hasło,keys);
+        return String.format("%s,%s,%s,%s,%s\n",imię, nazwisko, login, hasło,keys);
     }
 }
