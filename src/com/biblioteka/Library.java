@@ -7,51 +7,44 @@ import java.nio.file.Paths;
 import java.time.Year;
 import java.util.Vector;
 
-public class Library
-{
+public class Library {
     Vector<Person> osoby;
     Vector<Book> ksiazki;
     private static final String BOOKS_PATH = "src/com/biblioteka/resources/Books.csv";
     private static final String PEOPLE_PATH = "src/com/biblioteka/resources/People.csv";
-    public Library()
-    {
-      osoby = new Vector<Person>();
-      ksiazki = new Vector<Book>();
+
+    public Library() {
+        osoby = new Vector<Person>();
+        ksiazki = new Vector<Book>();
     }
 
-    public void wypiszDostepne()
-    {
-        for (Book ksiazka:ksiazki)
-        {
-            if(ksiazka.dostępne != 0)
-            {
-                System.out.println("["+ksiazki.indexOf(ksiazka)+ "]:  " + ksiazka);
+    public void wypiszDostepne() {
+        for (Book ksiazka : ksiazki) {
+            if (ksiazka.dostępne != 0) {
+                System.out.println("[" + ksiazki.indexOf(ksiazka) + "]:  " + ksiazka.prettyToString());
             }
         }
     }
-    public Boolean dodajOsobe(Person osoba)
-    {
-        for(Person p : osoby)
-        {
+
+    public Boolean dodajOsobe(Person osoba) {
+        for (Person p : osoby) {
             //jeśli jest już konto z takim samym loginem, nie dodaje jej do osób w bibliotece
-            if(osoba.login.equalsIgnoreCase(p.login)) return false;
+            if (osoba.login.equalsIgnoreCase(p.login)) return false;
         }
         return osoby.add(osoba);
     }
-    public Boolean dodajKsiazke(Book ksiazka)
-    {
-        for(Book b : ksiazki)
-        {
+
+    public Boolean dodajKsiazke(Book ksiazka) {
+        for (Book b : ksiazki) {
             //jeśli istnieje już taka książka w bibliotece, dodanie ilości dostęnych książek
-            if(ksiazka.autor.equalsIgnoreCase(b.autor) && ksiazka.tytuł.equalsIgnoreCase(b.tytuł) && ksiazka.rokWydania.equals(b.rokWydania))
-            {
+            if (ksiazka.autor.equalsIgnoreCase(b.autor) && ksiazka.tytuł.equalsIgnoreCase(b.tytuł) && ksiazka.rokWydania.equals(b.rokWydania)) {
                 b.dostępne += ksiazka.getDostępne();
             }
         }
         return true;
     }
-    private Book loadWierszKsiazka(String linia)
-    {
+
+    private Book loadWierszKsiazka(String linia) {
         String[] dane = linia.split(",");
         //linia: tytul|autor|rok|dostepnych
         //dane: [tytul, autor, rok, dostepnych]
@@ -61,58 +54,49 @@ public class Library
         return ksiazka;
     }
 
-    private Person loadWierszOsoba(String linia)
-    {
+    private Person loadWierszOsoba(String linia) {
         String[] dane = linia.split(",");
         //linia: imie|nazwisko|login|haslo|wypozyczoneKsiazki
         //dane: [imie, nazwisko, login, haslo, [wypozyczoneKsiazki]]
-        String[] wypozyczoneIndex = dane[dane.length-1].split(";");
-        Person osoba = new Person(dane[0],dane[1],dane[2],dane[3]);
+        String[] wypozyczoneIndex = dane[dane.length - 1].split(";");
+        Person osoba = new Person(dane[0], dane[1], dane[2], dane[3]);
 
         //Wypożyczanie książek
-        if(!wypozyczoneIndex[0].equals("-1"))
-        {
+        if (!wypozyczoneIndex[0].equals("-1")) {
             int[] wypozyczoneKsiazki = new int[wypozyczoneIndex.length];
 
-            for (int i = 0; i < wypozyczoneIndex.length; i++)
-            {
+            for (int i = 0; i < wypozyczoneIndex.length; i++) {
                 wypozyczoneKsiazki[i] = Integer.parseInt(wypozyczoneIndex[i]);
             }
-            for(int i:wypozyczoneKsiazki)
-            {
-                osoba.wypozyczKsiazkeLoadPerson(i,ksiazki.get(i));
+            for (int i : wypozyczoneKsiazki) {
+                osoba.wypozyczKsiazkeLoadPerson(i, ksiazki.get(i));
             }
         }
 
         return osoba;
     }
 
-    public void cleanUpFiles(String path)
-    {
+    public void cleanUpFiles(String path) {
         File targetFile = new File(path);
         targetFile.delete();
     }
-    private void saveBooks() throws IOException
-    {
+
+    private void saveBooks() throws IOException {
         cleanUpFiles(BOOKS_PATH);
         Path newFilePath = Paths.get(BOOKS_PATH);
         Files.createFile(newFilePath);
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(BOOKS_PATH));
-        for(Book ksiazka: ksiazki)
-        {
+        for (Book ksiazka : ksiazki) {
             //[index]|tytul|autor|rokWydania|dostępne
-            writer.write(ksiazki.indexOf(ksiazka)+","+ksiazka.saveWiersz());
+            writer.write(ksiazki.indexOf(ksiazka) + "," + ksiazka.saveWiersz());
         }
         writer.close();
     }
 
-    private void loadBooks() throws IOException
-    {
-        try(BufferedReader br = new BufferedReader(new FileReader(BOOKS_PATH)))
-        {
-            for (String linia; (linia = br.readLine()) != null; )
-            {
+    private void loadBooks() throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(BOOKS_PATH))) {
+            for (String linia; (linia = br.readLine()) != null; ) {
                 //dodawane po kolei, więc nie potrzeba precyzować indeksu
                 ksiazki.add(loadWierszKsiazka(linia));
             }
@@ -120,15 +104,13 @@ public class Library
     }
 
 
-    private void savePeople() throws IOException
-    {
+    private void savePeople() throws IOException {
         cleanUpFiles(PEOPLE_PATH);
         Path newFilePath = Paths.get(PEOPLE_PATH);
         Files.createFile(newFilePath);
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(PEOPLE_PATH));
-        for(Person osoba: osoby)
-        {
+        for (Person osoba : osoby) {
 
             writer.write(osoba.saveWiersz());
         }
@@ -136,26 +118,21 @@ public class Library
     }
 
 
-    private void loadPeople() throws IOException
-    {
-        try(BufferedReader br = new BufferedReader(new FileReader(PEOPLE_PATH)))
-        {
-            for (String linia; (linia = br.readLine()) != null; )
-            {
+    private void loadPeople() throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(PEOPLE_PATH))) {
+            for (String linia; (linia = br.readLine()) != null; ) {
                 osoby.add(loadWierszOsoba(linia));
             }
         }
     }
 
-    void save() throws IOException
-    {
+    void save() throws IOException {
         saveBooks();
         savePeople();
         System.out.println("Zapisano dane");
     }
 
-    void load() throws IOException
-    {
+    void load() throws IOException {
         loadBooks();
         loadPeople();
         System.out.println("Załadowano dane");
