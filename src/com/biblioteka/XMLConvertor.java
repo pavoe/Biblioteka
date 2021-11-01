@@ -18,16 +18,17 @@ import org.w3c.dom.Element;
 
 public class XMLConvertor {
 
-    static final String xmlFilePath = "src/com/biblioteka/resources/Books.xml";
+    static final String xmlBooksPath = "src/com/biblioteka/resources/XML/Books.xml";
+    static final String xmlPeoplePath = "src/com/biblioteka/resources/XML/People.xml";
 
-    public static void naXML(Library biblioteka) {
+    public static void saveBookXML(Library biblioteka) {
         try {
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
 
-            Element root = document.createElement("library");
+            Element root = document.createElement("Books");
             document.appendChild(root);
             int i = 0;
             for (Book ksiazka : biblioteka.ksiazki) {
@@ -60,11 +61,10 @@ public class XMLConvertor {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+            StreamResult streamResult = new StreamResult(new File(xmlBooksPath));
 
 
             transformer.transform(domSource, streamResult);
-            System.out.println("Zapisano dane w pliku xml.");
 
 
         } catch (ParserConfigurationException | TransformerException pce) {
@@ -72,5 +72,71 @@ public class XMLConvertor {
         }
 
 
+    }
+
+    public static void savePeopleXML(Library biblioteka) {
+        try {
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+
+
+            Element root = document.createElement("People");
+            document.appendChild(root);
+            for (Person osoba : biblioteka.osoby) {
+                Element person = document.createElement("person");
+                root.appendChild(person);
+
+
+                Element imie = document.createElement("name");
+                imie.appendChild(document.createTextNode(osoba.imię));
+                person.appendChild(imie);
+
+                Element nazwisko = document.createElement("surname");
+                nazwisko.appendChild(document.createTextNode(osoba.nazwisko));
+                person.appendChild(nazwisko);
+
+                Element login = document.createElement("login");
+                login.appendChild(document.createTextNode(osoba.login));
+                person.appendChild(login);
+
+                Element hasło = document.createElement("password");
+                hasło.appendChild(document.createTextNode(osoba.hasło));
+                person.appendChild(hasło);
+
+
+                for (int id : osoba.wypozyczoneKsiazki.keySet()) {
+
+                    Book tmp = osoba.wypozyczoneKsiazki.get(id);
+
+                    Element pożyczone = document.createElement("borrowed");
+                    pożyczone.appendChild(document.createTextNode(tmp.tytuł));
+                    person.appendChild(pożyczone);
+
+                    Attr attr = document.createAttribute("id");
+                    attr.setValue(Integer.toString(id));
+                    pożyczone.setAttributeNode(attr);
+
+                }
+            }
+
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(xmlPeoplePath));
+
+
+            transformer.transform(domSource, streamResult);
+
+
+        } catch (ParserConfigurationException | TransformerException pce) {
+            pce.printStackTrace();
+        }
+    }
+
+    public static void naXML(Library bibioteka) {
+        saveBookXML(bibioteka);
+        savePeopleXML(bibioteka);
     }
 }
