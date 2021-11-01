@@ -161,5 +161,7 @@ public class Main {
         biblioteka.load();
         menu(biblioteka, menu);
         biblioteka.save();
+
+        XMLConvertor.naXML(biblioteka);
     }
 }

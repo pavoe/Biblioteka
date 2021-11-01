@@ -1,0 +1,76 @@
+package com.biblioteka;
+
+import java.io.File;
+import java.time.Year;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+
+public class XMLConvertor {
+
+    static final String xmlFilePath = "src/com/biblioteka/resources/Books.xml";
+
+    public static void naXML(Library biblioteka) {
+        try {
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+
+
+            Element root = document.createElement("library");
+            document.appendChild(root);
+            int i = 0;
+            for (Book ksiazka : biblioteka.ksiazki) {
+                Element book = document.createElement("book");
+                root.appendChild(book);
+
+                Attr attr = document.createAttribute("id");
+                attr.setValue(Integer.toString(i));
+                book.setAttributeNode(attr);
+
+                Element tytuł = document.createElement("title");
+                tytuł.appendChild(document.createTextNode(ksiazka.tytuł));
+                book.appendChild(tytuł);
+
+                Element autor = document.createElement("author");
+                autor.appendChild(document.createTextNode(ksiazka.autor));
+                book.appendChild(autor);
+
+                Element datePublication = document.createElement("publication");
+                datePublication.appendChild(document.createTextNode(String.valueOf(ksiazka.rokWydania)));
+                book.appendChild(datePublication);
+
+                Element availability = document.createElement("availability");
+                availability.appendChild(document.createTextNode(Integer.toString(ksiazka.dostępne)));
+                book.appendChild(availability);
+                i++;
+            }
+
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+
+
+            transformer.transform(domSource, streamResult);
+            System.out.println("Zapisano dane w pliku xml.");
+
+
+        } catch (ParserConfigurationException | TransformerException pce) {
+            pce.printStackTrace();
+        }
+
+
+    }
+}
