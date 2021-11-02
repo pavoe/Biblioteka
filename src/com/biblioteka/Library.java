@@ -10,8 +10,8 @@ import java.util.Vector;
 public class Library {
     Vector<Person> osoby;
     Vector<Book> ksiazki;
-    private static final String BOOKS_PATH = "src/com/biblioteka/resources/Books.csv";
-    private static final String PEOPLE_PATH = "src/com/biblioteka/resources/People.csv";
+    private static final String BOOKS_PATH = "src/com/biblioteka/resources/CSV/Books.csv";
+    private static final String PEOPLE_PATH = "src/com/biblioteka/resources/CSV/People.csv";
 
     public Library() {
         osoby = new Vector<Person>();

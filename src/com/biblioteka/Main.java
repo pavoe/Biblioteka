@@ -162,5 +162,7 @@ public class Main {
 
 
         biblioteka.save();
+
+        XMLConvertor.naXML(biblioteka);
     }
 }
