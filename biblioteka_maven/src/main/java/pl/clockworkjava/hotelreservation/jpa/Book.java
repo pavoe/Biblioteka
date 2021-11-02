@@ -1,0 +1,69 @@
+package pl.clockworkjava.hotelreservation.jpa;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.Year;
+
+@Entity
+public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+
+    String tytuł;
+    String autor;
+    Year rokWydania;
+    int dostępne;
+
+    public Book(String tytuł, String autor, Year rokWydania, int dostępne) {
+        this.tytuł = tytuł;
+        this.autor = autor;
+        this.rokWydania = rokWydania;
+        this.dostępne = dostępne;
+    }
+
+    public long getId() { return id; }
+
+    public int getDostępne() {
+        return dostępne;
+    }
+
+    public void setDostępne(int dostępne) {
+        this.dostępne = dostępne;
+    }
+
+    @Override
+    public String toString() {
+        return "Tytuł: '" + tytuł + '\'' +
+                "| Autor: '" + autor + '\'' +
+                "| Rok Wydania: " + rokWydania +
+                "| Dostępne: " + dostępne;
+    }
+
+    public String prettyToString() {
+        String inden1 = indentation(24 - tytuł.length());
+        String inden2 = indentation(20 - autor.length());
+        String inden3 = indentation(20 - rokWydania.length());
+
+        String result = "Tytuł: '" + tytuł + '\'' + inden1 +
+                "| Autor: '" + autor + '\'' + inden2 +
+                "| Rok Wydania: " + rokWydania + inden3 +
+                "| Dostępne: " + dostępne;
+
+
+        return result;
+    }
+
+    private static String indentation(int numberOfSpaces) {
+        String result = "";
+        for (int i = 0; i < numberOfSpaces; i++)
+            result += " ";
+        return result;
+    }
+
+    public String saveWiersz() {
+        return String.format("%s,%s,%s,%s\n", tytuł, autor, rokWydania, dostępne);
+    }
+}
