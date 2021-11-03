@@ -207,6 +207,7 @@ public class GUI extends JFrame {
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
+                            XMLConvertor.naXML(biblioteka);
 
                             //brutalne zamykanie
                             System.exit(0);
@@ -652,11 +653,11 @@ public class GUI extends JFrame {
         wypożyczKsiążke.add(informacja);
 
         //TEKST
-        JLabel loginLabel = new JLabel("Podaj ID książki którą chcesz oddać.");
+        JLabel loginLabel = new JLabel("Podaj ID książki którą chcesz wypożyczyć.");
         loginLabel.setBounds(20, 250, 250, 25);
         wypożyczKsiążke.add(loginLabel);
 
-        //Miejsce na wpisanie id książki którą należy oddać
+        //Miejsce na wpisanie id książki którą należy wypożyczyć
         JTextField idTEXT = new JTextField();
         idTEXT.setBounds(20, 275, 100, 25);
         wypożyczKsiążke.add(idTEXT);

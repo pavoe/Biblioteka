@@ -158,7 +158,7 @@ public class Main {
         //menu(biblioteka, menu);
         //biblioteka.save();
 
-        JFrame gui = new GUI("Tytuł", biblioteka);
+        JFrame gui = new GUI("Aplikacja Biblioteki", biblioteka);
 
 
         XMLConvertor.naXML(biblioteka);
