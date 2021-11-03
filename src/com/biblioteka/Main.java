@@ -84,8 +84,7 @@ public class Main {
                             System.out.println("Udane utworzenie konta");
                             if (logowanie(konto.login, konto.hasło, biblioteka)) System.out.println("Udane logowanie");
                             else System.out.println("Nieudana próba logowania\n");
-                        }
-                        else System.out.println("Nie udało się utworzyć konta");
+                        } else System.out.println("Nie udało się utworzyć konta");
                         break;
                     case 3: //wypisanie książek
                         System.out.println("--DOSTĘPNE KSIĄŻKI--");
@@ -157,8 +156,10 @@ public class Main {
         Library biblioteka = new Library();
         biblioteka.load();
         //menu(biblioteka, menu);
+        //biblioteka.save();
+
         JFrame gui = new GUI("Tytuł", biblioteka);
-        biblioteka.save();
+
 
         XMLConvertor.naXML(biblioteka);
     }

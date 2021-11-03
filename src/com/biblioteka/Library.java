@@ -129,13 +129,13 @@ public class Library {
     void save() throws IOException {
         saveBooks();
         savePeople();
-        System.out.println("Zapisano dane");
+        //System.out.println("Zapisano dane");
     }
 
     void load() throws IOException {
         loadBooks();
         loadPeople();
-        System.out.println("Załadowano dane");
+        //System.out.println("Załadowano dane");
     }
 
 }
