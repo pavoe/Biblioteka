@@ -1,6 +1,6 @@
 package com.biblioteka;
 
-
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -18,12 +18,10 @@ public class Main {
         return false;
     }
 
-
     static Boolean wylogowanie() {
         zalogowana = null;
         return true;
     }
-
 
     static Person tworzenieKonta() {
         System.out.println("--TWORZENIE KONTA--");
@@ -86,8 +84,7 @@ public class Main {
                             System.out.println("Udane utworzenie konta");
                             if (logowanie(konto.login, konto.hasło, biblioteka)) System.out.println("Udane logowanie");
                             else System.out.println("Nieudana próba logowania\n");
-                        }
-                        else System.out.println("Nie udało się utworzyć konta");
+                        } else System.out.println("Nie udało się utworzyć konta");
                         break;
                     case 3: //wypisanie książek
                         System.out.println("--DOSTĘPNE KSIĄŻKI--");
@@ -157,9 +154,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int menu = 0;
         Library biblioteka = new Library();
-
         biblioteka.load();
-        menu(biblioteka, menu);
-        biblioteka.save();
+        //menu(biblioteka, menu);
+        //biblioteka.save();
+
+        JFrame gui = new GUI("Tytuł", biblioteka);
+
+
+        XMLConvertor.naXML(biblioteka);
     }
 }
