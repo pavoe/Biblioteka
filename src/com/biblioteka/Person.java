@@ -32,7 +32,7 @@ public class Person {
 
     //podczas ładowania z pliku nie zmnejszać liczby dostępnych książek
     void wypozyczKsiazkeLoadPerson(int index, Book ksiazka) {
-        if (ksiazka.getDostępne() > 0 && !wypozyczoneKsiazki.containsKey(index)) {
+        if (ksiazka.getDostępne() >= 0 && !wypozyczoneKsiazki.containsKey(index)) {
             wypozyczoneKsiazki.put(index, ksiazka);
         }
     }

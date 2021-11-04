@@ -94,8 +94,8 @@ public class OddajKsiazke extends PanelBazowy {
             var wypozyczoneKsiazki = zalogowanyUżytkownik.getWypozyczoneKsiazki();
 
             for (int i = 0; i < wypozyczoneKsiazki.size(); i++) {
-                Integer index[] = wypozyczoneKsiazki.keySet().toArray(new Integer[0]);
-                Book b[] = wypozyczoneKsiazki.values().toArray(new Book[0]);
+                Integer[] index = wypozyczoneKsiazki.keySet().toArray(new Integer[0]);
+                Book[] b = wypozyczoneKsiazki.values().toArray(new Book[0]);
                 tableModel.addRow(new Object[]{index[i], b[i].getTytuł(), b[i].getAutor(), b[i].getRokWydania()});
             }
 

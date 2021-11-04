@@ -10,10 +10,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class WyswietlDostepne extends PanelBazowy {
-
+    JTable table;
+    Library biblioteka;
     public WyswietlDostepne(Library biblioteka, JPanel mainPanel, CardLayout cards, GUI gui) {
         //JPanel wyswietlDostepne = new JPanel();
         setLayout(null);
+        this.biblioteka = biblioteka;
         //wyswietlDostepne.setBackground(Color.white);
         JLabel title = new JLabel("Dostępne książki", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.PLAIN, 20));
@@ -27,21 +29,25 @@ public class WyswietlDostepne extends PanelBazowy {
         tableModel.addColumn("Autor");
         tableModel.addColumn("Rok Wydania");
         tableModel.addColumn("Dostępne");
-        JTable dostepne = new JTable(tableModel);
-        dostepne.setFont(new Font("Sans", Font.PLAIN, 14));
-        dostepne.setBackground(new Color(0xE5DCC3));
-        dostepne.setBorder(new LineBorder(Color.black));
+        table = new JTable(tableModel);
+        table.setFont(new Font("Sans", Font.PLAIN, 14));
+        table.setBackground(new Color(0xE5DCC3));
+        table.setBorder(new LineBorder(Color.black));
 
         //Dodawanie wszystkich dostępnych pozycji
 
-        for (int i = 0; i < biblioteka.size(); i++) {
+        int dostepneSize = 0;
+        for(int i = 0; i < biblioteka.size(); i++) {
             Book b = biblioteka.getKsiazka(i);
-            tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
+            if(b.getDostępne()>0) {
+                tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
+                dostepneSize++;
+            }
         }
 
-        dostepne.setBounds(20, 50, gui.getWidth() - 60, biblioteka.size() * 16);
-        dostepne.setEnabled(false);
-        add(dostepne);
+        table.setBounds(20, 50, gui.getWidth() - 60, dostepneSize * 16);
+        table.setEnabled(false);
+        add(table);
 
         //
         JButton backButton = new JButton("Powrót");
@@ -56,5 +62,19 @@ public class WyswietlDostepne extends PanelBazowy {
         });
 
         add(backButton);
+    }
+    public void update(GUI gui) {
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        tableModel.setRowCount(0);
+        //Dodawanie wszystkich dostępnych pozycji
+        int dostepneSize = 0;
+        for (int i = 0; i < biblioteka.size(); i++) {
+            Book b = biblioteka.getKsiazka(i);
+            if (b.getDostępne() > 0) {
+                tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
+                dostepneSize++;
+            }
+        }
+        table.setBounds(20, 50, gui.getWidth() - 60, dostepneSize * 16);
     }
 }

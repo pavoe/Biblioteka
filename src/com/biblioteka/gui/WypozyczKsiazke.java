@@ -11,8 +11,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class WypozyczKsiazke extends PanelBazowy {
-
+    JTable table;
+    Library biblioteka;
     public WypozyczKsiazke(Library biblioteka, JPanel mainPanel, CardLayout cards, GUI gui) {
+        this.biblioteka = biblioteka;
         setLayout(null);
         setBackground(Color.white);
         JLabel title = new JLabel("Dostępne książki", SwingConstants.CENTER);
@@ -27,19 +29,23 @@ public class WypozyczKsiazke extends PanelBazowy {
         tableModel.addColumn("Autor");
         tableModel.addColumn("Rok Wydania");
         tableModel.addColumn("Dostępne");
-        JTable dostepne = new JTable(tableModel);
-        dostepne.setFont(new Font("Sans", Font.PLAIN, 14));
-        dostepne.setBorder(new LineBorder(Color.black));
+        table = new JTable(tableModel);
+        table.setFont(new Font("Sans", Font.PLAIN, 14));
+        table.setBorder(new LineBorder(Color.black));
 
         //Dodawanie wszystkich dostępnych pozycji
+        int dostepneSize = 0;
         for(int i = 0; i < biblioteka.size(); i++) {
             Book b = biblioteka.getKsiazka(i);
-            tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
+            if(b.getDostępne()>0) {
+                tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
+                dostepneSize++;
+            }
         }
 
-        dostepne.setBounds(20, 50, gui.getWidth() - 60, biblioteka.size() * 16);
-        //dostepne.setEnabled(false);
-        add(dostepne);
+        table.setBounds(20, 50, gui.getWidth() - 60, dostepneSize * 16);
+        //table.setEnabled(false);
+        add(table);
 
 
 
@@ -73,7 +79,7 @@ public class WypozyczKsiazke extends PanelBazowy {
 
                 if (ksiazkiUzytkownika.containsKey(id)) {
                     informacja.setText("Masz już wypożyczoną tą książke!");
-                } else if (biblioteka.size() > id && id >= 0) {
+                } else if (biblioteka.size() > id && id >= 0 && biblioteka.getKsiazka(id).getDostępne()>0) {
                     Book tmp = biblioteka.getKsiazka(id);
                     zalogowanyUżytkownik.wypozyczKsiazke(id, tmp);
                     gui.onUserStateChanged();
@@ -98,6 +104,7 @@ public class WypozyczKsiazke extends PanelBazowy {
         backButton.setForeground(Color.white);
         backButton.setBounds(20, 10, 100, 25);
         backButton.addActionListener(e -> {
+            gui.onUserStateChanged();
             if (gui.getZalogowanyUżytkownik() == null)
                 cards.show(mainPanel, "MenuNiezalogowany");
             else
@@ -105,5 +112,19 @@ public class WypozyczKsiazke extends PanelBazowy {
         });
 
         add(backButton);
+    }
+    public void update(GUI gui) {
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        tableModel.setRowCount(0);
+        //Dodawanie wszystkich dostępnych pozycji
+        int dostepneSize = 0;
+        for (int i = 0; i < biblioteka.size(); i++) {
+            Book b = biblioteka.getKsiazka(i);
+            if (b.getDostępne() > 0) {
+                tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
+                dostepneSize++;
+            }
+        }
+        table.setBounds(20, 50, gui.getWidth() - 60, dostepneSize * 16);
     }
 }

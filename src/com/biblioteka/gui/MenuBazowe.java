@@ -14,7 +14,7 @@ interface Action {
 }
 
 public class MenuBazowe extends PanelBazowy {
-    private Library biblioteka;
+    private final Library biblioteka;
     protected JLabel loginStatusLabel;
     protected JList<String> lista;
 
