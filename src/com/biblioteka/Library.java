@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Year;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class Library {
@@ -12,6 +14,10 @@ public class Library {
     Vector<Book> ksiazki;
     private static final String BOOKS_PATH = "src/com/biblioteka/resources/CSV/Books.csv";
     private static final String PEOPLE_PATH = "src/com/biblioteka/resources/CSV/People.csv";
+
+    public Iterable<Book> getKsiazki() { return ksiazki; }
+    public int size() { return ksiazki.size(); }
+    public Book getKsiazka(int index) { return ksiazki.elementAt(index); }
 
     public Library() {
         osoby = new Vector<Person>();
@@ -126,7 +132,7 @@ public class Library {
         }
     }
 
-    void save() throws IOException {
+    public void save() throws IOException {
         saveBooks();
         savePeople();
         //System.out.println("Zapisano dane");

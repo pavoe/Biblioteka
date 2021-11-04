@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class Main {
     static Person zalogowana = null;
+    public  static Person getZalogowana() { return zalogowana; }
 
-
-    static Boolean logowanie(String login, String haslo, Library library) {
+    public static Boolean logowanie(String login, String haslo, Library library) {
         for (Person osoba : library.osoby) {
             if (login.equalsIgnoreCase(osoba.login) && (haslo.equals(osoba.hasło) || osoba.hasło.equals(" "))) {
                 zalogowana = osoba;
@@ -158,7 +158,7 @@ public class Main {
         //menu(biblioteka, menu);
         //biblioteka.save();
 
-        JFrame gui = new GUI("Tytuł", biblioteka);
+        JFrame gui = new GUI("Aplikacja Biblioteki", biblioteka);
 
 
         XMLConvertor.naXML(biblioteka);

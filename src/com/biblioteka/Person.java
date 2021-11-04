@@ -9,7 +9,12 @@ public class Person {
     String hasło;
     Map<Integer, Book> wypozyczoneKsiazki;
 
-    Person(String imię, String nazwisko, String login, String hasło) {
+    public Map<Integer, Book> getWypozyczoneKsiazki() { return wypozyczoneKsiazki; }
+
+    public String getLogin() { return login; }
+    public String getHasło() { return hasło; }
+
+    public Person(String imię, String nazwisko, String login, String hasło) {
         this.imię = imię;
         this.nazwisko = nazwisko;
         this.login = login;
@@ -17,7 +22,7 @@ public class Person {
         this.wypozyczoneKsiazki = new HashMap<Integer, Book>();
     }
 
-    Boolean wypozyczKsiazke(int index, Book ksiazka) {
+    public Boolean wypozyczKsiazke(int index, Book ksiazka) {
         if (ksiazka.getDostępne() > 0 && !wypozyczoneKsiazki.containsKey(index)) {
             wypozyczoneKsiazki.put(index, ksiazka);
             ksiazka.setDostępne(ksiazka.getDostępne() - 1);
@@ -32,7 +37,7 @@ public class Person {
         }
     }
 
-    Boolean oddajKsiazke(int index, Book ksiazka) {
+    public Boolean oddajKsiazke(int index, Book ksiazka) {
         if (wypozyczoneKsiazki.containsValue(ksiazka)) {
             ksiazka.setDostępne(ksiazka.getDostępne() + 1);
             return wypozyczoneKsiazki.remove(index, ksiazka);
@@ -65,6 +70,10 @@ public class Person {
                 ", Login: '" + login + '\'' +
                 ", Wypozyczone Ksiazki: " + wypozyczoneKsiazki +
                 '}';
+    }
+
+    public String getLoginString() {
+        return login + " (" + imię + " " + nazwisko + ")";
     }
 
     String saveWiersz() {

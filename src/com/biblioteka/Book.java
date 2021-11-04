@@ -18,10 +18,13 @@ public class Book {
     public int getDostępne() {
         return dostępne;
     }
-
     public void setDostępne(int dostępne) {
         this.dostępne = dostępne;
     }
+
+    public String getTytuł() { return tytuł; }
+    public String getAutor() { return autor; }
+    public Year getRokWydania() { return rokWydania; }
 
     @Override
     public String toString() {
