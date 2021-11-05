@@ -75,7 +75,8 @@ public class MenuBazowe extends PanelBazowy {
 
         //JList<String> menuNiezalogowanyLista;
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addAll(Arrays.stream(menuOpcje).toList());
+        //listModel.addAll(Arrays.stream(menuOpcje).toList());
+        listModel.addAll(Arrays.asList(menuOpcje));
 
         //stworzenie listy z tekstów w tablicy menuOpcje
         lista = new JList<>(listModel);
