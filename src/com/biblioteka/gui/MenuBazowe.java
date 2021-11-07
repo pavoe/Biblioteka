@@ -1,5 +1,6 @@
 package com.biblioteka.gui;
 
+import com.biblioteka.JSONSerializer;
 import com.biblioteka.Library;
 import com.biblioteka.XMLConvertor;
 
@@ -63,6 +64,11 @@ public class MenuBazowe extends PanelBazowy {
             ex.printStackTrace();
         }
         XMLConvertor.naXML(biblioteka);
+        try {
+            JSONSerializer.serialize(biblioteka, "src/com/biblioteka/resources/JSON/Books.json", "src/com/biblioteka/resources/JSON/People.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //brutalne zamykanie
         System.exit(0);

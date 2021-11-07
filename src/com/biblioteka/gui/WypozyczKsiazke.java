@@ -10,7 +10,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class WypozyczKsiazke extends PanelBazowy {
@@ -49,12 +48,12 @@ public class WypozyczKsiazke extends PanelBazowy {
         dostepne.setBorder(new LineBorder(Color.black));
 
         //Dodawanie wszystkich dostępnych pozycji
-        for(int i = 0; i < biblioteka.size(); i++) {
+        for(int i = 0; i < biblioteka.bookCount(); i++) {
             Book b = biblioteka.getKsiazka(i);
             tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
         }
 
-        dostepne.setBounds(20, 50, gui.getWidth() - 60, biblioteka.size() * 16);
+        dostepne.setBounds(20, 50, gui.getWidth() - 60, biblioteka.bookCount() * 16);
         //dostepne.setEnabled(false);
         add(dostepne);
 
@@ -88,7 +87,7 @@ public class WypozyczKsiazke extends PanelBazowy {
 
                 if (ksiazkiUzytkownika.containsKey(id)) {
                     informacja.setText("Masz już wypożyczoną tą książke!");
-                } else if (biblioteka.size() > id && id >= 0) {
+                } else if (biblioteka.bookCount() > id && id >= 0) {
                     Book tmp = biblioteka.getKsiazka(id);
                     zalogowanyUżytkownik.wypozyczKsiazke(id, tmp);
                     gui.onUserStateChanged();
