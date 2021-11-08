@@ -16,10 +16,8 @@ public class Library {
     private static final String PEOPLE_PATH = "src/com/biblioteka/resources/CSV/People.csv";
 
     public Iterable<Book> getKsiazki() { return ksiazki; }
-    public int bookCount() { return ksiazki.size(); }
-    public int userCount() { return osoby.size(); }
+    public int size() { return ksiazki.size(); }
     public Book getKsiazka(int index) { return ksiazki.elementAt(index); }
-    public  Person getUser(int index) { return osoby.elementAt(index); }
 
     public Library() {
         osoby = new Vector<Person>();
