@@ -33,7 +33,7 @@ public class GUI extends JFrame {
         menuZ.update(zalogowanyUżytkownik);
         wyswietlW.update(this);
         oddajK.update(zalogowanyUżytkownik);
-        wypożyczK.update(this);
+        //wypożyczK.update(this);
         wyswietlD.update(this);
     }
 

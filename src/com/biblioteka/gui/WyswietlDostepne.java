@@ -37,7 +37,7 @@ public class WyswietlDostepne extends PanelBazowy {
         //Dodawanie wszystkich dostępnych pozycji
 
         int dostepneSize = 0;
-        for(int i = 0; i < biblioteka.size(); i++) {
+        for(int i = 0; i < biblioteka.getKsiazki().size(); i++) {
             Book b = biblioteka.getKsiazka(i);
             if(b.getDostępne()>0) {
                 tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});
@@ -68,7 +68,7 @@ public class WyswietlDostepne extends PanelBazowy {
         tableModel.setRowCount(0);
         //Dodawanie wszystkich dostępnych pozycji
         int dostepneSize = 0;
-        for (int i = 0; i < biblioteka.size(); i++) {
+        for (int i = 0; i < biblioteka.getKsiazki().size(); i++) {
             Book b = biblioteka.getKsiazka(i);
             if (b.getDostępne() > 0) {
                 tableModel.addRow(new Object[]{i, b.getTytuł(), b.getAutor(), b.getRokWydania(), b.getDostępne()});

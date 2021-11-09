@@ -6,12 +6,8 @@
 		"password":"hasło"
 		"borrowed":[
 			{
-				"id":2,
-				"name":"Łuk triumfalny",
-			},
-			{
-				"id":4,
-				"name":"Cień Wiatru",
+				"id":0,
+				"name":"Gra o Tron",
 			}
 		]
 	},
@@ -26,16 +22,12 @@
 				"name":"Gra o Tron",
 			},
 			{
-				"id":3,
-				"name":"I nie było już nikogo",
+				"id":1,
+				"name":"Sto lat samotności",
 			},
 			{
 				"id":5,
 				"name":"Rzeźnia numer pięć",
-			},
-			{
-				"id":7,
-				"name":"Siddhartha",
 			}
 		]
 	},
